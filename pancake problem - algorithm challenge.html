@@ -1,0 +1,91 @@
+<script>
+  
+    function minPancakeFlips(no, St, K, N)
+    {
+        let S = St.split('');
+     
+        // Stores the minimum number of
+        // operations required
+        let min = 0;
+        let i;
+    
+        // Traverse the string S
+        for (i = 0; i < N; i++) {
+     
+            // If the character is '-'
+            if (S[i] == '-' && i + K <= N) {
+     
+                // Flip the substrings of
+                // size K starting from i
+                for (let j = i; j < i + K; j++) {
+                    if (S[j] == '+')
+                        S[j] = '-';
+                    else
+                        S[j] = '+';
+                }
+     
+                // Increment the minimum count
+                // of operations required
+                min++;
+            }
+        }
+     
+        // After performing the operations
+        // check if string S contains any 0s
+        for (i = 0; i < N; i++) {
+            if (S[i] == '-')
+                break;
+        }
+     
+        // If S contains only 1's , prints the minimum number of flips 
+        if (i == N)
+            document.write(`CASE #${no} : ${min} , `);
+        else  // otherwise , it is impossible
+            document.write(`CASE #${no} : IMPOSSIBLE , `);
+    }
+     
+    function run(input) {
+        if (input == null) { 
+            document.write('Wrong Input');
+            return false; 
+        }
+    
+        // calculate the T
+        let tmp = input.match(/\d+/);
+        if (tmp != null && tmp.length > 0) {
+            T = parseInt(tmp[0]);
+        }
+        else {
+            document.write('Wrong Input');
+            return false;
+        }
+     
+        const pancakeStateString = input.replace(tmp[0], '');
+        let numbers =  pancakeStateString.match(/\d+/g); // get only numbers
+        let strings =  pancakeStateString.match(/([-+])+/g); // get only strings with - and +
+    
+        if (T > numbers.length) { // wrong test cases match
+            document.write('Wrong Input');
+            return false; 
+        }
+    
+        if (numbers.length != strings.length) { // wrong test cases match
+            document.write('Wrong Input');
+            return false;
+        }
+    
+        for (let i = 0; i < T; i++) {
+            let S = strings[i];
+            let K = parseInt(numbers[i]);
+            let N = S.length;
+
+            minPancakeFlips(i + 1, S, K, N);
+        }
+    }
+    
+    let input = "3---+-++-3+++++4-+-+-4";
+    document.write(`Input   : ${input} <br/>`);
+
+    document.write(`Output  : `);
+    run(input); 
+</script>
